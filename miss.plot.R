@@ -1,4 +1,4 @@
-missingData<-function(data, only.missing=TRUE, plot.color="coral1"){
+miss.plot<-function(data, only.missing=TRUE, plot.color="coral1"){
   
   library(ggplot2)
   library(dplyr)
@@ -14,11 +14,11 @@ missingData<-function(data, only.missing=TRUE, plot.color="coral1"){
   
   
   #Plot percent of missing data for variables, in descending order
-  df %>%
-    ggplot(aes(x=reorder(var, -miss), y=miss)) + 
+  missing.df %>%
+    ggplot(aes(x=reorder(var, -pct.missing), y=pct.missing)) + 
     geom_bar(stat='identity', fill=plot.color) +
     labs(x='', y='% missing', title='Percent missing data by feature') +
-    theme(axis.text.x=element_text(angle=90, hjust=1))
+    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5))
   
   #Same thing in tabular form
   return (dplyr::arrange(missing.df, desc(pct.missing)))
