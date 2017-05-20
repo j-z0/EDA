@@ -1,6 +1,8 @@
+require(ggplot2)
+require(dplyr)
+require(purrr)
+
 miss.plot<-function(data, only.missing=TRUE, plot.color="coral1"){
-  library(ggplot2)
-  library(dplyr)
   #Calculate percent missing data for every column in input data frame
   miss_pct<-purrr::map_dbl(data, function(x){round((sum(is.na(x)) / length(x)) * 100, 1)})
   
@@ -23,8 +25,6 @@ miss.plot<-function(data, only.missing=TRUE, plot.color="coral1"){
 }
 
 miss.table<-function(data){
-  library(ggplot2)
-  library(dplyr)
   #Calculate percent missing data for every column in input data frame
   miss_pct<-purrr::map_dbl(data, function(x){round((sum(is.na(x)) / length(x)) * 100, 1)})
   
@@ -33,5 +33,5 @@ miss.table<-function(data){
   
   missing.df<-data.frame(var=names(miss_pct), pct.missing=miss_pct, row.names=NULL)
   #Same thing in tabular form
-  return (dplyr::arrange(missing.df, desc(pct.missing)))
+  return (dplyr::arrange(missing.df, pct.missing))
 }
